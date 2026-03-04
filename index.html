@@ -36,7 +36,6 @@
         }
         .result-item { padding: 12px; border-bottom: 1px solid #333; font-size: 0.9rem; color: #FFF; cursor: pointer; }
 
-        /* LIVE TURN-BY-TURN HUD */
         #directionHud {
             position: fixed; top: 105px; left: 10px; right: 10px;
             background: var(--accent); color: black; padding: 12px; border-radius: 12px;
@@ -59,28 +58,47 @@
 
         #map { flex-grow: 1; margin-top: 100px; z-index: 1; }
 
+        /* HARMONIZED BOTTOM SHEET */
         .bottom-sheet { 
-            background: var(--card); padding: 12px 15px 15px 15px; 
-            border-radius: 20px 20px 0 0; z-index: 1001;
+            background: var(--card); 
+            padding: 20px 15px calc(20px + env(safe-area-inset-bottom)); 
+            border-radius: 30px 30px 0 0; 
+            z-index: 1001;
             box-sizing: border-box;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+            border-top: 1px solid #444;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Consistent spacing between all rows */
         }
-        .clock-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        #liveClock { font-size: 1.1rem; font-weight: 200; }
-        #etaBox { font-size: 1rem; font-weight: 700; color: var(--accent); }
 
-        .weather-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
-        .w-box { background: #2C2C2E; padding: 6px 2px; border-radius: 8px; text-align: center; }
-        .stat-label { font-size: 0.5rem; color: #8E8E93; text-transform: uppercase; display: block; }
-        .w-val { font-size: 0.75rem; font-weight: bold; }
+        .clock-row { display: flex; justify-content: space-between; align-items: center; }
+        #liveClock { font-size: 1.3rem; font-weight: 200; }
+        #etaBox { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
 
-        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .weather-row { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 8px; 
+        }
+        .w-box { background: #2C2C2E; padding: 10px 4px; border-radius: 12px; text-align: center; }
+        .stat-label { font-size: 0.55rem; color: #8E8E93; text-transform: uppercase; display: block; margin-bottom: 2px; }
+        .w-val { font-size: 0.85rem; font-weight: bold; }
+
+        .btn-row { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+        }
         .action-btn { 
             background: #2C2C2E; color: var(--text); border: none; 
-            padding: 8px; border-radius: 10px; font-weight: 800; 
-            font-size: 0.75rem; cursor: pointer; height: 42px;
+            padding: 14px; border-radius: 16px; font-weight: 800; 
+            font-size: 0.85rem; cursor: pointer; height: 55px;
             display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            border: 1px solid #444;
         }
-        .start-btn { background: var(--success); color: black; }
+        .start-btn { background: var(--success); color: black; border: none; }
         .leaflet-routing-container { display: none; }
     </style>
 </head>
@@ -190,7 +208,7 @@
             }).on('routesfound', function(e) {
                 const route = e.routes[0];
                 currentRouteCoords = route.coordinates;
-                routeInstructions = route.instructions; // Capture instructions
+                routeInstructions = route.instructions; 
                 travelTimeMinutes = route.summary.totalTime / 60;
                 document.getElementById('distVal').innerText = (route.summary.totalDistance / 1000).toFixed(1);
                 document.getElementById('directionHud').innerText = routeInstructions[0].text;
@@ -199,7 +217,6 @@
         }
     }
 
-    // REAL-TIME GPS TRACKER
     function startLiveTracking() {
         if (navigator.geolocation) {
             watchId = navigator.geolocation.watchPosition((p) => {
@@ -211,7 +228,7 @@
                 else userMarker = L.circleMarker(pos, { radius: 10, color: '#007AFF', fillColor: '#007AFF', fillOpacity: 0.9 }).addTo(map);
 
                 if (isNavigating) {
-                    map.panTo(pos); // Move map with rider
+                    map.panTo(pos); 
                     updateLiveDirections(pos);
                 }
             }, null, { enableHighAccuracy: true, distanceFilter: 5 });
@@ -220,14 +237,11 @@
 
     function updateLiveDirections(currentPos) {
         if (!routeInstructions.length) return;
-        
-        // Simple logic: Find instruction closest to current position
         for (let i = 0; i < routeInstructions.length; i++) {
             const instr = routeInstructions[i];
             const instrPos = currentRouteCoords[instr.index];
             const dist = currentPos.distanceTo(L.latLng(instrPos.lat, instrPos.lng));
-            
-            if (dist < 30) { // If within 30 meters of a turn
+            if (dist < 30) {
                 document.getElementById('directionHud').innerText = instr.text;
                 break;
             }
