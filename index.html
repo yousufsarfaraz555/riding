@@ -58,18 +58,19 @@
 
         #map { flex-grow: 1; margin-top: 100px; z-index: 1; }
 
-        /* HARMONIZED BOTTOM SHEET */
+        /* HARMONIZED & ELEVATED BOTTOM SHEET */
         .bottom-sheet { 
             background: var(--card); 
-            padding: 20px 15px calc(20px + env(safe-area-inset-bottom)); 
-            border-radius: 30px 30px 0 0; 
+            /* Added env(safe-area-inset-bottom) and extra 40px to pull controls UP */
+            padding: 25px 15px calc(60px + env(safe-area-inset-bottom)); 
+            border-radius: 35px 35px 0 0; 
             z-index: 1001;
             box-sizing: border-box;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
             border-top: 1px solid #444;
             display: flex;
             flex-direction: column;
-            gap: 15px; /* Consistent spacing between all rows */
+            gap: 20px; 
         }
 
         .clock-row { display: flex; justify-content: space-between; align-items: center; }
@@ -79,21 +80,21 @@
         .weather-row { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
-            gap: 8px; 
+            gap: 10px; 
         }
-        .w-box { background: #2C2C2E; padding: 10px 4px; border-radius: 12px; text-align: center; }
-        .stat-label { font-size: 0.55rem; color: #8E8E93; text-transform: uppercase; display: block; margin-bottom: 2px; }
-        .w-val { font-size: 0.85rem; font-weight: bold; }
+        .w-box { background: #2C2C2E; padding: 12px 4px; border-radius: 14px; text-align: center; }
+        .stat-label { font-size: 0.55rem; color: #8E8E93; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .w-val { font-size: 0.9rem; font-weight: bold; }
 
         .btn-row { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
+            gap: 15px; 
         }
         .action-btn { 
             background: #2C2C2E; color: var(--text); border: none; 
-            padding: 14px; border-radius: 16px; font-weight: 800; 
-            font-size: 0.85rem; cursor: pointer; height: 55px;
+            padding: 16px; border-radius: 18px; font-weight: 800; 
+            font-size: 0.9rem; cursor: pointer; height: 60px;
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 6px 15px rgba(0,0,0,0.4);
             border: 1px solid #444;
@@ -339,3 +340,6 @@
 </script>
 </body>
 </html>
+
+
+
