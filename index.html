@@ -20,44 +20,46 @@
         }
 
         .search-container {
-            padding: 15px; background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(20px);
-            position: fixed; top: 0; width: 100%; z-index: 2000; box-sizing: border-box;
+            padding: 15px; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(25px);
+            position: fixed; top: 0; width: 100%; z-index: 9999; box-sizing: border-box;
             border-bottom: 1px solid #333; border-radius: 0 0 20px 20px;
         }
 
-        .input-wrapper { position: relative; display: flex; align-items: center; background: #2C2C2E; border-radius: 12px; margin-bottom: 8px; }
-        input { background: transparent; border: none; color: white; padding: 12px; width: 100%; font-size: 16px; outline: none; }
-        .gps-btn { background: none; border: none; padding: 10px; cursor: pointer; color: var(--accent); font-size: 1.3rem; }
+        .input-wrapper { position: relative; display: flex; align-items: center; background: #2C2C2E; border-radius: 12px; margin-bottom: 8px; border: 1px solid #444; }
+        input { background: transparent; border: none; color: white; padding: 12px; width: 85%; font-size: 15px; outline: none; }
+        .gps-btn { background: none; border: none; padding: 10px; cursor: pointer; color: var(--accent); font-size: 1.2rem; }
+
+        .search-results {
+            position: absolute; top: 100%; left: 0; right: 0;
+            background: #1C1C1E; border: 2px solid var(--accent); border-radius: 12px;
+            max-height: 250px; overflow-y: auto; z-index: 10001; display: none;
+            box-shadow: 0 20px 40px rgba(0,0,0,1);
+        }
+        .result-item { padding: 16px; border-bottom: 1px solid #333; font-size: 1rem; color: #FFF; cursor: pointer; }
+        .result-item:active { background: #333; }
 
         #directionHud {
-            position: fixed; top: 140px; left: 10px; right: 10px;
+            position: fixed; top: 165px; left: 10px; right: 10px;
             background: var(--accent); color: black; padding: 15px; border-radius: 15px;
             display: none; z-index: 2100; font-weight: 800; font-size: 1.1rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: center;
         }
 
         #hud {
-            position: fixed; top: 220px; left: 10px; right: 10px;
-            background: rgba(28, 28, 30, 0.85); padding: 15px; border-radius: 15px;
+            position: fixed; top: 235px; left: 10px; right: 10px;
+            background: rgba(28, 28, 30, 0.95); padding: 15px; border-radius: 15px;
             display: flex; flex-direction: column; z-index: 1500; border: 1px solid rgba(255,140,0,0.3);
-            backdrop-filter: blur(10px); gap: 10px;
+            backdrop-filter: blur(10px); gap: 5px;
         }
         .hud-main { display: flex; justify-content: space-between; width: 100%; align-items: center; }
         .hud-item { text-align: center; flex: 1; }
         .hud-label { font-size: 0.6rem; color: #8E8E93; text-transform: uppercase; display: block; }
         .hud-val { font-size: 1rem; font-weight: 800; color: var(--text); }
-        
-        #statusMeaning {
-            font-size: 0.7rem; color: #aaa; text-align: center; border-top: 1px solid #444; padding-top: 5px; width: 100%;
-        }
+        #statusDesc { font-size: 0.75rem; color: #aaa; text-align: center; border-top: 1px solid #333; padding-top: 5px; margin-top: 5px; }
 
-        #map { flex-grow: 1; margin-top: 130px; z-index: 1; }
+        #map { flex-grow: 1; margin-top: 155px; z-index: 1; }
 
-        .bottom-sheet { 
-            background: var(--card); padding: 20px; border-radius: 25px 25px 0 0; 
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.8); z-index: 1001;
-        }
-        
+        .bottom-sheet { background: var(--card); padding: 20px; border-radius: 25px 25px 0 0; z-index: 1001; }
         .clock-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         #liveClock { font-size: 1.5rem; font-weight: 200; letter-spacing: -1px; }
         #etaBox { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
@@ -66,21 +68,10 @@
         .w-box { background: #2C2C2E; padding: 10px 5px; border-radius: 12px; text-align: center; }
         .w-val { font-size: 0.85rem; font-weight: bold; display: block; }
 
-        .btn-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .action-btn { 
-            background: #2C2C2E; color: var(--text); border: none; padding: 12px; 
-            border-radius: 14px; font-weight: 800; font-size: 0.75rem; 
-        }
+        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .action-btn { background: #2C2C2E; color: var(--text); border: none; padding: 15px; border-radius: 14px; font-weight: 800; font-size: 0.85rem; }
         .start-btn { background: var(--success); color: black; }
-        .plan-btn { background: var(--accent); color: black; }
-
-        .autocomplete-results {
-            position: absolute; top: 100%; left: 0; right: 0; background: #1C1C1E;
-            border-radius: 10px; max-height: 200px; overflow-y: auto; z-index: 3000; display: none;
-            border: 1px solid #444; border-top: none;
-        }
-        .result-item { padding: 14px; border-bottom: 1px solid #333; font-size: 0.9rem; color: var(--text); }
-        .result-item:active { background: #333; }
+        .petrol-icon { font-size: 20px; text-align: center; line-height: 25px; }
         .leaflet-routing-container { display: none; }
     </style>
 </head>
@@ -90,22 +81,22 @@
 
 <div class="search-container">
     <div class="input-wrapper">
-        <input type="text" id="startInput" placeholder="From (Current Location)" autocomplete="off">
+        <input type="text" id="startInput" placeholder="A: Starting from..." autocomplete="off">
         <button class="gps-btn" onclick="useMyLocation()">📍</button>
-        <div id="startResults" class="autocomplete-results"></div>
+        <div id="startResults" class="search-results"></div>
     </div>
     <div class="input-wrapper">
-        <input type="text" id="endInput" placeholder="Destination City" autocomplete="off">
-        <div id="endResults" class="autocomplete-results"></div>
+        <input type="text" id="endInput" placeholder="B: Heading to..." autocomplete="off">
+        <div id="endResults" class="search-results"></div>
     </div>
 </div>
 
 <div id="hud">
     <div class="hud-main">
-        <div class="hud-item"><span class="hud-label">Distance</span><span id="distVal" class="hud-val">0</span><span style="font-size: 0.6rem;"> km</span></div>
-        <div class="hud-item"><span class="hud-label">Safety Status</span><span id="conditionVal" class="hud-val">Scanning...</span></div>
+        <div class="hud-item"><span class="hud-label">Distance</span><span id="distVal" class="hud-val">--</span> km</div>
+        <div class="hud-item"><span class="hud-label">Safety Status</span><span id="conditionVal" class="hud-val">Ready</span></div>
     </div>
-    <div id="statusMeaning">Ready to analyze route conditions...</div>
+    <div id="statusDesc">Plan your Jharkhand ride...</div>
 </div>
 
 <div id="map"></div>
@@ -115,18 +106,15 @@
         <div id="liveClock">00:00:00</div>
         <div id="etaBox">ETA: --:--</div>
     </div>
-
     <div class="weather-row">
-        <div class="w-box"><span class="hud-label">Temp</span><span id="tempVal" class="w-val">--</span></div>
-        <div class="w-box"><span class="hud-label">Rain</span><span id="rainVal" class="w-val">--</span></div>
-        <div class="w-box"><span class="hud-label">Wind</span><span id="windVal" class="w-val">--</span></div>
-        <div class="w-box"><span class="hud-label">Visib.</span><span id="visVal" class="w-val">--</span></div>
+        <div class="w-box"><span class="stat-label">Temp</span><span id="tempVal" class="w-val">--</span></div>
+        <div class="w-box"><span class="stat-label">Rain</span><span id="rainVal" class="w-val">--</span></div>
+        <div class="w-box"><span class="stat-label">Wind</span><span id="windVal" class="w-val">--</span></div>
+        <div class="w-box"><span class="stat-label">Visib.</span><span id="visVal" class="w-val">--</span></div>
     </div>
-
     <div class="btn-row">
-        <button class="action-btn" onclick="findPOIs('fuel')">⛽ PETROL</button>
-        <button class="action-btn plan-btn" onclick="planRoute()">PLAN</button>
-        <button id="startBtn" class="action-btn start-btn" onclick="startRide()">START</button>
+        <button class="action-btn" id="petrolBtn" onclick="findPetrolOnRoute()">⛽ PETROL</button>
+        <button id="startBtn" class="action-btn start-btn" onclick="startRide()">START RIDE</button>
     </div>
 </div>
 
@@ -134,11 +122,195 @@
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
 <script>
-    let map, routingControl, poiMarkers = [], userMarker;
-    let startCoords = null, endCoords = null, currentRoutePath = [];
-    let travelTimeMinutes = 0;
+    let map, routingControl, userMarker, poiMarkers = [];
+    let startCoords = null, endCoords = null, travelTimeMinutes = 0, currentRouteCoords = [];
     let isNavigating = false;
-    let instructions = [];
+    let isRoutingLoading = false;
+
+    function setupAutocomplete(inputId, resultsId, onSelect) {
+        const input = document.getElementById(inputId);
+        const resultsDiv = document.getElementById(resultsId);
+        let timeout;
+
+        input.addEventListener('input', () => {
+            clearTimeout(timeout);
+            const query = input.value.trim();
+            if (query.length < 3) { resultsDiv.style.display = 'none'; return; }
+
+            timeout = setTimeout(async () => {
+                const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&lat=22.8046&lon=86.2029&limit=5`;
+                try {
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if (data && data.features.length > 0) {
+                        resultsDiv.innerHTML = "";
+                        data.features.forEach(f => {
+                            const name = f.properties.name || "";
+                            const city = f.properties.city || f.properties.state || "";
+                            const display = `${name}${city ? ', ' + city : ''}`;
+                            const div = document.createElement('div');
+                            div.className = 'result-item';
+                            div.innerText = display;
+                            div.onclick = () => {
+                                onSelect({ lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0] }, name);
+                                resultsDiv.style.display = 'none';
+                                input.blur();
+                            };
+                            resultsDiv.appendChild(div);
+                        });
+                        resultsDiv.style.display = 'block';
+                    }
+                } catch (e) {}
+            }, 500);
+        });
+    }
+
+    function initMap() {
+        map = L.map('map', { zoomControl: false }).setView([22.8046, 86.2029], 12);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+        
+        setupAutocomplete('startInput', 'startResults', (coords, name) => {
+            startCoords = coords;
+            document.getElementById('startInput').value = name;
+            autoPlan();
+        });
+        
+        setupAutocomplete('endInput', 'endResults', (coords, name) => {
+            endCoords = coords;
+            document.getElementById('endInput').value = name;
+            autoPlan();
+        });
+
+        setInterval(updateClock, 1000);
+        useMyLocation(); 
+    }
+
+    function autoPlan() {
+        if (startCoords && endCoords) {
+            isRoutingLoading = true;
+            document.getElementById('petrolBtn').innerText = "🔄 ROUTING...";
+            
+            if (routingControl) map.removeControl(routingControl);
+            routingControl = L.Routing.control({
+                waypoints: [L.latLng(startCoords.lat, startCoords.lon), L.latLng(endCoords.lat, endCoords.lon)],
+                lineOptions: { styles: [{ color: '#FF8C00', weight: 7 }] },
+                createMarker: () => null,
+                addWaypoints: false,
+                draggableWaypoints: false
+            }).on('routesfound', function(e) {
+                const route = e.routes[0];
+                currentRouteCoords = route.coordinates;
+                travelTimeMinutes = route.summary.totalTime / 60;
+                document.getElementById('distVal').innerText = (route.summary.totalDistance / 1000).toFixed(1);
+                document.getElementById('petrolBtn').innerText = "⛽ PETROL";
+                isRoutingLoading = false;
+                fetchWeather(endCoords.lat, endCoords.lon);
+            }).on('routingerror', function() {
+                isRoutingLoading = false;
+                document.getElementById('petrolBtn').innerText = "⛽ PETROL";
+            }).addTo(map);
+        }
+    }
+
+    async function findPetrolOnRoute() {
+        if (isRoutingLoading) return alert("Calculating route... please wait.");
+        if (currentRouteCoords.length === 0) return alert("Plan a route first!");
+        
+        poiMarkers.forEach(m => map.removeLayer(m));
+        poiMarkers = [];
+
+        // Sample 6 points for high precision strictly along the line
+        const sampleSteps = [0, 0.2, 0.4, 0.6, 0.8, 1];
+        const pointsToScan = sampleSteps.map(step => 
+            currentRouteCoords[Math.floor((currentRouteCoords.length - 1) * step)]
+        );
+        
+        for (let pt of pointsToScan) {
+            // High precision query: Limit search to a tiny radius near route points
+            const url = `https://photon.komoot.io/api/?q=fuel&lat=${pt.lat}&lon=${pt.lng}&limit=2`;
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                data.features.forEach(f => {
+                    const lat = f.geometry.coordinates[1];
+                    const lon = f.geometry.coordinates[0];
+                    
+                    // Only add if not already marked (prevent duplicates)
+                    const isDuplicate = poiMarkers.some(m => m.getLatLng().lat === lat && m.getLatLng().lng === lon);
+                    
+                    if (!isDuplicate) {
+                        const m = L.marker([lat, lon], {
+                            icon: L.divIcon({ 
+                                html: '⛽', 
+                                className: 'petrol-icon', 
+                                iconSize: [25, 25],
+                                iconAnchor: [12, 12]
+                            })
+                        }).addTo(map).bindPopup(`<b>${f.properties.name || "Petrol Station"}</b><br>${f.properties.city || ""}`);
+                        poiMarkers.push(m);
+                    }
+                });
+            } catch (e) {}
+        }
+        
+        if(poiMarkers.length > 0) {
+            const group = new L.featureGroup(poiMarkers);
+            map.fitBounds(group.getBounds().pad(0.2));
+            alert(`Found ${poiMarkers.length} stations strictly along your route.`);
+        } else {
+            alert("No stations found on this specific path.");
+        }
+    }
+
+    async function fetchWeather(lat, lon) {
+        try {
+            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=precipitation_probability,visibility&windspeed_unit=kmh&temperature_unit=celsius&timezone=auto`);
+            const data = await res.json();
+            const cur = data.current_weather;
+            const rain = data.hourly.precipitation_probability[0];
+            const vis = (data.hourly.visibility[0] / 1000).toFixed(1);
+
+            document.getElementById('tempVal').innerText = Math.round(cur.temperature) + "°";
+            document.getElementById('windVal').innerText = Math.round(cur.windspeed) + " kph";
+            document.getElementById('rainVal').innerText = rain + "%";
+            document.getElementById('visVal').innerText = vis + " km";
+            
+            let status = "OPTIMAL"; 
+            let color = "var(--success)";
+            let desc = "Clear skies & low wind. Perfect for riding.";
+
+            if (cur.windspeed > 35 || rain > 30 || vis < 5) {
+                status = "CAUTION";
+                color = "var(--warning)";
+                desc = "Strong winds or rain detected. Keep a steady grip.";
+            }
+            if (cur.windspeed > 55 || rain > 60 || vis < 1) {
+                status = "DANGER";
+                color = "var(--danger)";
+                desc = "Extreme conditions. Ride not recommended.";
+            }
+
+            const condEl = document.getElementById('conditionVal');
+            condEl.innerText = status;
+            condEl.style.color = color;
+            document.getElementById('statusDesc').innerText = desc;
+        } catch(e) {}
+    }
+
+    function useMyLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((p) => {
+                startCoords = { lat: p.coords.latitude, lon: p.coords.longitude };
+                document.getElementById('startInput').value = "My Location";
+                map.setView([startCoords.lat, startCoords.lon], 14);
+                if (!userMarker) {
+                    userMarker = L.circleMarker([startCoords.lat, startCoords.lon], { radius: 10, color: '#007AFF', fillColor: '#007AFF', fillOpacity: 0.9 }).addTo(map);
+                }
+                autoPlan();
+                fetchWeather(startCoords.lat, startCoords.lon);
+            }, null, { enableHighAccuracy: true });
+        }
+    }
 
     function updateClock() {
         const now = new Date();
@@ -147,174 +319,22 @@
             const eta = new Date(now.getTime() + travelTimeMinutes * 60000);
             document.getElementById('etaBox').innerText = "ETA: " + eta.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false });
         }
-        setTimeout(updateClock, 1000);
-    }
-
-    function initMap() {
-        map = L.map('map', { zoomControl: false }).setView([20.5937, 78.9629], 5);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-        setupAutocomplete('startInput', 'startResults', (c) => startCoords = c);
-        setupAutocomplete('endInput', 'endResults', (c) => endCoords = c);
-        updateClock();
-        
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((p) => {
-                const lat = p.coords.latitude;
-                const lon = p.coords.longitude;
-                startCoords = { lat, lon };
-                fetchWeather(lat, lon); 
-                updateUserPos(p);
-                map.setView([lat, lon], 13);
-            });
-            navigator.geolocation.watchPosition(updateUserPos, null, { enableHighAccuracy: true });
-        }
-    }
-
-    function updateUserPos(pos) {
-        const latlng = [pos.coords.latitude, pos.coords.longitude];
-        if (!userMarker) {
-            userMarker = L.circleMarker(latlng, { radius: 10, color: '#007AFF', fillColor: '#007AFF', fillOpacity: 0.9 }).addTo(map);
-        } else {
-            userMarker.setLatLng(latlng);
-        }
-        if (isNavigating) {
-            map.panTo(latlng, { animate: true, duration: 1.0 });
-            if (instructions.length > 0) {
-                const next = instructions[0];
-                document.getElementById('directionHud').innerText = next.text + " (" + Math.round(next.distance) + "m)";
-            }
-        }
-    }
-
-    function useMyLocation() {
-        navigator.geolocation.getCurrentPosition((p) => {
-            startCoords = { lat: p.coords.latitude, lon: p.coords.longitude };
-            document.getElementById('startInput').value = "My Location";
-            map.setView([startCoords.lat, startCoords.lon], 14);
-            fetchWeather(startCoords.lat, startCoords.lon);
-        });
-    }
-
-    // --- UPDATED AUTOCOMPLETE: PRIORITY TO NEARBY ---
-    function setupAutocomplete(inputId, resultsId, onSelect) {
-        const input = document.getElementById(inputId);
-        const resultsDiv = document.getElementById(resultsId);
-        
-        input.addEventListener('input', async () => {
-            if (input.value.length < 3) { resultsDiv.style.display = 'none'; return; }
-            
-            // Build viewbox to prioritize current area if startCoords exist
-            let viewboxParam = "";
-            if (startCoords) {
-                const offset = 0.5; // Approx 50km radius
-                viewboxParam = `&viewbox=${startCoords.lon-offset},${startCoords.lat+offset},${startCoords.lon+offset},${startCoords.lat-offset}&bounded=0`;
-            }
-
-            try {
-                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${input.value},India${viewboxParam}&limit=6`);
-                const data = await res.json();
-                
-                resultsDiv.innerHTML = '';
-                resultsDiv.style.display = 'block';
-                
-                data.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'result-item';
-                    div.innerText = item.display_name.split(', India')[0];
-                    div.onclick = () => { 
-                        input.value = div.innerText; 
-                        onSelect({ lat: item.lat, lon: item.lon }); 
-                        resultsDiv.style.display = 'none';
-                        fetchWeather(item.lat, item.lon);
-                    };
-                    resultsDiv.appendChild(div);
-                });
-            } catch(e) {}
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (e.target !== input) resultsDiv.style.display = 'none';
-        });
-    }
-
-    async function planRoute() {
-        if (!startCoords || !endCoords) return alert("Please select From and To locations.");
-        if (routingControl) map.removeControl(routingControl);
-        routingControl = L.Routing.control({
-            waypoints: [L.latLng(startCoords.lat, startCoords.lon), L.latLng(endCoords.lat, endCoords.lon)],
-            lineOptions: { styles: [{ color: '#FF8C00', weight: 7 }] },
-            addWaypoints: false, draggableWaypoints: false
-        }).on('routesfound', function(e) {
-            const route = e.routes[0];
-            currentRoutePath = route.coordinates;
-            instructions = route.instructions;
-            travelTimeMinutes = route.summary.totalTime / 60;
-            document.getElementById('distVal').innerText = (route.summary.totalDistance / 1000).toFixed(1);
-        }).addTo(map);
-        fetchWeather(endCoords.lat, endCoords.lon);
     }
 
     function startRide() {
-        if (!startCoords) return alert("GPS not found.");
+        if (!startCoords || !endCoords) return alert("Select A and B points.");
         isNavigating = !isNavigating;
         const btn = document.getElementById('startBtn');
         const dirHud = document.getElementById('directionHud');
         if (isNavigating) {
-            btn.innerText = "STOP"; btn.style.background = "var(--danger)"; btn.style.color = "white";
-            dirHud.style.display = "block"; map.setZoom(18); map.panTo(userMarker.getLatLng());
+            btn.innerText = "STOP RIDE"; btn.style.background = "var(--danger)"; btn.style.color = "white";
+            dirHud.style.display = "block"; map.setZoom(18);
         } else {
-            btn.innerText = "START"; btn.style.background = "var(--success)"; btn.style.color = "black";
+            btn.innerText = "START RIDE"; btn.style.background = "var(--success)"; btn.style.color = "black";
             dirHud.style.display = "none";
         }
     }
 
-    async function fetchWeather(lat, lon) {
-        try {
-            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=precipitation_probability,visibility&windspeed_unit=kmh&temperature_unit=celsius&timezone=auto`);
-            const data = await res.json();
-            const temp = Math.round(data.current_weather.temperature);
-            const wind = Math.round(data.current_weather.windspeed);
-            const rain = data.hourly.precipitation_probability[0];
-            const vis = (data.hourly.visibility[0] / 1000).toFixed(1);
-
-            document.getElementById('tempVal').innerText = temp + "°";
-            document.getElementById('windVal').innerText = wind + " kph";
-            document.getElementById('rainVal').innerText = rain + "%";
-            document.getElementById('visVal').innerText = vis + " km";
-            
-            let status = "OPTIMAL"; let color = "#32D74B";
-            let meaning = "Clear skies, low wind & good visibility. Perfect ride.";
-
-            if (wind > 35 || rain > 30 || vis < 5) { 
-                status = "CAUTION"; color = "#FFD60A"; 
-                meaning = "Moderate rain, wind gusts or low visibility. Gear up.";
-            }
-            if (wind > 50 || rain > 60 || vis < 1) { 
-                status = "DANGER"; color = "#FF453A"; 
-                meaning = "Heavy storms, high winds or extreme fog. Do not ride.";
-            }
-
-            const statusEl = document.getElementById('conditionVal');
-            statusEl.innerText = status; statusEl.style.color = color;
-            document.getElementById('statusMeaning').innerText = meaning;
-
-        } catch(e) { console.error("Weather error"); }
-    }
-
-    async function findPOIs(type) {
-        if (currentRoutePath.length === 0) return alert("Plan route first.");
-        poiMarkers.forEach(m => map.removeLayer(m)); poiMarkers = [];
-        const pts = [currentRoutePath[0], currentRoutePath[Math.floor(currentRoutePath.length/2)], currentRoutePath[currentRoutePath.length-1]];
-        for (let pt of pts) {
-            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=fuel+near+${pt.lat},${pt.lng}&limit=3`);
-            const data = await res.json();
-            data.forEach(item => {
-                const marker = L.marker([item.lat, item.lon]).addTo(map).bindPopup("Petrol Station");
-                poiMarkers.push(marker);
-            });
-        }
-    }
     window.onload = initMap;
 </script>
 </body>
