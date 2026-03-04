@@ -47,7 +47,6 @@
         .hud-label { font-size: 0.6rem; color: #8E8E93; text-transform: uppercase; display: block; }
         .hud-val { font-size: 1rem; font-weight: 800; color: var(--text); }
         
-        /* Status Meaning Legend */
         #statusMeaning {
             font-size: 0.7rem; color: #aaa; text-align: center; border-top: 1px solid #444; padding-top: 5px; width: 100%;
         }
@@ -77,10 +76,11 @@
 
         .autocomplete-results {
             position: absolute; top: 100%; left: 0; right: 0; background: #1C1C1E;
-            border-radius: 10px; max-height: 160px; overflow-y: auto; z-index: 3000; display: none;
-            border: 1px solid #333;
+            border-radius: 10px; max-height: 200px; overflow-y: auto; z-index: 3000; display: none;
+            border: 1px solid #444; border-top: none;
         }
-        .result-item { padding: 12px; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        .result-item { padding: 14px; border-bottom: 1px solid #333; font-size: 0.9rem; color: var(--text); }
+        .result-item:active { background: #333; }
         .leaflet-routing-container { display: none; }
     </style>
 </head>
@@ -195,17 +195,31 @@
         });
     }
 
+    // --- UPDATED AUTOCOMPLETE: PRIORITY TO NEARBY ---
     function setupAutocomplete(inputId, resultsId, onSelect) {
         const input = document.getElementById(inputId);
         const resultsDiv = document.getElementById(resultsId);
+        
         input.addEventListener('input', async () => {
-            if (input.value.length < 3) return;
+            if (input.value.length < 3) { resultsDiv.style.display = 'none'; return; }
+            
+            // Build viewbox to prioritize current area if startCoords exist
+            let viewboxParam = "";
+            if (startCoords) {
+                const offset = 0.5; // Approx 50km radius
+                viewboxParam = `&viewbox=${startCoords.lon-offset},${startCoords.lat+offset},${startCoords.lon+offset},${startCoords.lat-offset}&bounded=0`;
+            }
+
             try {
-                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${input.value},India&limit=5`);
+                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${input.value},India${viewboxParam}&limit=6`);
                 const data = await res.json();
-                resultsDiv.innerHTML = ''; resultsDiv.style.display = 'block';
+                
+                resultsDiv.innerHTML = '';
+                resultsDiv.style.display = 'block';
+                
                 data.forEach(item => {
-                    const div = document.createElement('div'); div.className = 'result-item';
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
                     div.innerText = item.display_name.split(', India')[0];
                     div.onclick = () => { 
                         input.value = div.innerText; 
@@ -216,6 +230,11 @@
                     resultsDiv.appendChild(div);
                 });
             } catch(e) {}
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target !== input) resultsDiv.style.display = 'none';
         });
     }
 
